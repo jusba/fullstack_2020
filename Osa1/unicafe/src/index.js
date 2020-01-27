@@ -9,20 +9,16 @@ const Header = (props) => {
     )
 }
 
-
 const Statistics = (props) => {
-    
     if (props.good + props.neutral + props.bad === 0){
         return(
             <p>No feedback given</p>
         )
     }
- 
     
     return (
         <table>
             <tbody>
-            
                 <StatisticLine text="good" value ={props.good} />
                 <StatisticLine text="neutral" value ={props.neutral} />
                 <StatisticLine text="bad" value ={props.bad} />    
@@ -30,19 +26,7 @@ const Statistics = (props) => {
                 <StatisticLine text="average" value ={(props.good+props.neutral+props.bad)/3} />        
                 <StatisticLine text="positive" value ={(props.good/(props.good+props.neutral+props.bad))*100} />       
             </tbody>
-
-
-            
-            
         </table>
-            
-           
-            
-            
-               
-           
-        
-
     )
 }
 
@@ -53,8 +37,6 @@ const StatisticLine = (props) => {
                 <td>
                     {props.text} 
                 </td>
-            
-            
                 <td>
                     {props.value} %
                 </td> 
@@ -96,8 +78,6 @@ const App = () => {
     const handleBadClick = () => {
         setBad(bad +1)
     } 
-    
-
     return (
         <div>
         <Header title={header} />
