@@ -2,16 +2,11 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Button = ({ onClick, text }) => {
-
-
-    
     return(
       <button onClick={onClick}>
       {text}
       </button>
     )  
-
-  
 }
 const Header = (props) => {
   return (
@@ -20,68 +15,26 @@ const Header = (props) => {
       </>
   )
 }
-const MostVoted = (props) => {
-  console.log("vittu",props.votes)
+const Anecdote = (props) => {
   
-  let zero = 0
-  let one = 0
-  let two = 0
-  let three = 0
-  let four = 0
-  let five = 0
-  
-  console.log("pääsee tänne?")
-  console.log("pituus=", props.votes.lenght)
-  props.votes.forEach(value => {
-    if(value === 0){
-      zero ++;
-    }
-    if(value === 1){
-      one ++;
-    }
-    if(value === 2){
-      two ++;
-    }
-    if(value === 3){
-      three ++;
-    }
-    if(value === 4){
-      four ++;
-    }
-    if(value === 5){
-      five ++;
-    }  
-  })
-  
- 
-  const values = [zero,one,two,three,four,five]
-  console.log("arvot",values)
-  let most = zero
-  let numbr = 0
-  let i = 0
-  console.log("isoin",most)
-  values.forEach(value => {
-    console.log("nyt",i,numbr,value, most)
-    if(value > most){
-      most = value
-      numbr = i
-    }
-    i++
-  })
   return(
-    <p>
-      {props.anecdotes[most]}
-    </p>
+    <div>
+    <p>{props.anecdote} </p>
+    <p>has {props.votes} votes</p>
+    </div>
   )
 }
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const [votes, setVote] = useState([])
+  const [votes, setVote] = useState([0,0,0,0,0,0])
   const header = "Anecdote of the day"
   const header2 = "Anecdote with most votes"
+  const [mostVotes, setMostVotes] = useState(0)
+  const [most, setMost] =useState(0)
   
   const handleClick = () => {
-    
+    console.log("click")
     while(true){
       let rdm = Math.floor(Math.random() * 6)
       if (rdm !== selected){
@@ -91,39 +44,28 @@ const App = (props) => {
       
     }
   } 
-  const handleVote = () => {
-    console.log("tääl",votes)
-    setVote(votes.concat(selected))
-    console.log("taastääl",votes)
-     
-    
-  }
   
+  const handleVote = () => {
+    console.log("vote")
+    const clone = [...votes]
+    clone[selected] ++ 
+    setVote(clone)
+    setMostVotes(Math.max(...clone))
+    setMost(clone.indexOf(Math.max(...clone)))
+  }
   return (
-
       <div>
         <Header title={header} />
-      <p>
-        {props.anecdotes[selected]}
-      </p>
-      <p>
-        <Button onClick={handleVote} text= {"vote"}/>
-        <Button onClick={handleClick} text= {"next anecdote"}/>
-      </p>
-      
+        <Anecdote votes = {votes[selected]} anecdote = {props.anecdotes[selected]}/>
+        <p>
+          <Button onClick={handleVote} text= {"vote"}/>
+          <Button onClick={handleClick} text= {"next anecdote"}/>
+        </p>
         <Header title={header2} />
-      
-      
-        <MostVoted votes = {votes} anecdotes = {props.anecdotes}/>
-      
-
+        <Anecdote votes = {mostVotes} anecdote = {props.anecdotes[most]}/>
       </div>
-      )
-      }
-    
-    
-
-
+  )
+}
 const anecdotes = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
