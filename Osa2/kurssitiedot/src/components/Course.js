@@ -5,11 +5,7 @@ import React from 'react'
 const Header = ({ course }) => {
 
     return (
-
-
-
         <h3>{course}</h3>
-
     )
 }
 const Part = (props) => {
@@ -18,10 +14,7 @@ const Part = (props) => {
     )
 }
 const Content = (props) => {
-
-
     return (
-
         <>
             {props.course.parts.map(course =>
                 <p key={course.id}>
@@ -35,9 +28,7 @@ const Content = (props) => {
 
 }
 const Total = (course) => {
-
     return (
-
         <b>Total of&nbsp;
 
             {course.course.parts.reduce(
@@ -48,15 +39,12 @@ const Total = (course) => {
     )
 }
 const Course = (course) => {
-
     return (
         <div>
             <Header course={course.course.name} />
             <Content course={course.course} />
             <Total course={course.course} />
         </div>
-
     )
-
 }
 export default Course
