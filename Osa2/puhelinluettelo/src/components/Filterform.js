@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 const addPerson = (event) => {
     event.preventDefault()
-    console.log
+    
 
 }
 const FilterForm = (props) => {
