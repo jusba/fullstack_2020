@@ -3,6 +3,8 @@ import axios from 'axios'
 import FilterForm from "./components/Filterform"
 import NameForm from "./components/NameForm"
 import ListNames from "./components/ListNames"
+import services from "./services/Numbers"
+
 
 
 
@@ -17,11 +19,10 @@ const App = () => {
 
   useEffect(() => {
     
-    axios
-      .get('http://localhost:3001/persons').then(response => {
-        setPersons(response.data)
-      })
-  }, [])
+    services.getAll().then(responsepersons => {
+      setPersons(responsepersons)
+    })
+  },[] )
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -33,15 +34,34 @@ const App = () => {
       name: newName,
       number: newNumber
     }
+
+    
+    if (persons.some(i => i.name === newName)) {
+      if (window.confirm(`${person.name} is already added to phonebook, replace the number with a new one?`)) {
+        services.updatePerson(persons.filter(i => i.name === person.name)[0].id, person).then(response => {
+            services.getAll().then(response => {
+                setPersons(response)
+            })
+        })
+    }
+    }
+    /*
     if (persons.some(i => i.name === newName)) {
       window.alert(`${newName} is already added to phonebook`)
-    }
+    }*/
+    
     else {
-      setPersons(persons.concat(person))
+      
+      services.create(person)
+      services.getAll().then(responsepersons => {
+        
+        setPersons(responsepersons)
+      })
       setNewName("")
       setNewNumber("")
     }
   }
+  
   const handleNameAdd = (event) => {
     setNewName(event.target.value)
     { console.log(newName) }
@@ -55,6 +75,9 @@ const App = () => {
     console.log(event.target.value)
     setSearch(event.target.value)
   }
+  const showPersons = (personsList) => {
+    setPersons(personsList)  
+  }
   return (
     <div>
       <h2>Phonebook</h2>
@@ -62,7 +85,7 @@ const App = () => {
       <h3>Add a new number</h3>
       <NameForm addPerson={addPerson} newName={newName} handleNameAdd={handleNameAdd} newNumber={newNumber} handleNumberAdd={handleNumberAdd} />
       <h3>Numbers</h3>
-      <ListNames persons={persons} newSearch={newSearch} />
+      <ListNames persons={persons} newSearch={newSearch} setPersons = {showPersons}/>
     </div>
   )
 }
