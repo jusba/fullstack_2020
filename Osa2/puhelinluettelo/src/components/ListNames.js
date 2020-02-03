@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import services from "../services/Numbers"
 
-const Button = ({ text, person, set }) => {
+const Button = ({ text, person, set, deleteMessage }) => {
 
     return (
         <button onClick={() => {
@@ -9,6 +9,7 @@ const Button = ({ text, person, set }) => {
                 services.deletePerson(person.id).then(response => {
                     services.getAll().then(response => {
                         set(response)
+                        deleteMessage(person.name)
                     })
                 })
             }
@@ -18,9 +19,9 @@ const Button = ({ text, person, set }) => {
         </button>
     )
 }
-const ListPerson = ({ person, setPersons }) => {
+const ListPerson = ({ person, setPersons, deleteMessage }) => {
     return (
-        <>{person.name} {person.number} <Button person={person} text={"delete"} set={setPersons} /></>
+        <>{person.name} {person.number} <Button person={person} text={"delete"} set={setPersons} deleteMessage = {deleteMessage} /></>
 
     )
 }
@@ -32,7 +33,7 @@ const ListNames = (props) => {
         props.persons.filter(person => person.name.toLowerCase().includes(props.newSearch.toLowerCase())).map(person =>
 
             <p key={person.name}>
-                <ListPerson person={person} setPersons={props.setPersons} />
+                <ListPerson person={person} setPersons={props.setPersons} deleteMessage = {props.deleteMessage} />
             </p>
         )
     )
