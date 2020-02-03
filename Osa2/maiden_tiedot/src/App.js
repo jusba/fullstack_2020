@@ -1,25 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import FilterForm from "./components/Filterform"
+import ListCountries from "./components/ListCountries"
 
 function App() {
+
+  const [countries, setCountries] = useState(
+    []
+  )
+  
+  const [newSearch, setSearch] = useState("")
+
+  useEffect(() => {
+
+    axios
+      .get('https://restcountries.eu/rest/v2/all').then(response => {
+        
+        setCountries(response.data)
+      })
+  }, [])
+  
+  const handleNewSearch = (event) => {
+    
+    setSearch(event.target.value)
+  }
+  
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+      <FilterForm newSearch={newSearch} handleNewSearch={handleNewSearch} />  
+      <ListCountries countries={countries} newSearch = {newSearch}/>
+      
+    </div>  
   );
 }
 
