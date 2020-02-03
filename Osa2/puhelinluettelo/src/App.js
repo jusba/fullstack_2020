@@ -38,9 +38,11 @@ const App = () => {
     
     if (persons.some(i => i.name === newName)) {
       if (window.confirm(`${person.name} is already added to phonebook, replace the number with a new one?`)) {
-        services.updatePerson(persons.filter(i => i.name === person.name)[0].id, person).then(response => {
+        services.updatePerson(persons.find(i => i.name === person.name).id, person).then(response => {
             services.getAll().then(response => {
                 setPersons(response)
+                setNewNumber("")
+                setNewName("")
             })
         })
     }
