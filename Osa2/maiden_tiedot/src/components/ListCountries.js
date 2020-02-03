@@ -1,26 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, {useState} from 'react'
 
-const GetFlag = ({ country }) => {
 
-    
-    
-
-        axios
-          .get(country.flag).then(response => {
-            
-            return(response)
-          })
-      
-    
+const Button = ({ onClick, text, country}) => {
+   
+    console.log(onclick)
+    return(
+      <button onClick={() => onClick(country)}>
+      {text}
+      </button>
+    )  
 }
-const ListCountry = ({ country }) => {
+
+const ListCountry = ({ country, onClick}) => {
+    
+    
     return (
-        <>{country.name}</>)
+        <>
+        <>{country.name} </><Button text = {"show"} onClick = {onClick} country = {country.name}/>
+        </>
+        )
 }
 const ListOneCountry = ({ country }) => {
-    console.log("top kek")
-    console.log(country.languages)
+    
     return (
         <>
             <h1>{country.name} </h1>
@@ -34,20 +35,20 @@ const ListOneCountry = ({ country }) => {
                     </li>
                 )}
             </ul>
-            <>
-            <GetFlag country = {country} />
-            </>
+            <img src = {country.flag} alt = "flag" width="200" height="150"/>
         </>
     )
 }
 
+
 const ListNames = (props) => {
-    console.log(props.countries, "tää")
+    
 
     if (Object.keys(props.countries.filter(country => country.name.toLowerCase().includes(props.newSearch.toLowerCase()))).length === 1) {
+        
         return (
-            props.countries.filter(country => country.name.toLowerCase().includes(props.newSearch.toLowerCase())).map(country =>
-
+            props.countries.filter(country => country.name.toLowerCase().includes(props.newSearch.toLowerCase())).map(country  =>
+                
                 <div key={country.name}>
                     <ListOneCountry country={country} />
                 </div>
@@ -57,10 +58,12 @@ const ListNames = (props) => {
     if (Object.keys(props.countries.filter(country => country.name.toLowerCase().includes(props.newSearch.toLowerCase()))).length > 10) {
         return (<p>Too many matches, specify another filter</p>)
     }
+    
     return (
         props.countries.filter(country => country.name.toLowerCase().includes(props.newSearch.toLowerCase())).map(country =>
+            
             <p key={country.name}>
-                <ListCountry country={country} />
+                <ListCountry country={country} onClick = {props.setSearch} />
             </p>
         )
     )

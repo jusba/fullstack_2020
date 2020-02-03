@@ -24,6 +24,11 @@ function App() {
     
     setSearch(event.target.value)
   }
+  const showOne = (country) =>{
+    setSearch(country)    
+
+  }
+  
   
 
 
@@ -31,7 +36,7 @@ function App() {
   return (
     <div>
       <FilterForm newSearch={newSearch} handleNewSearch={handleNewSearch} />  
-      <ListCountries countries={countries} newSearch = {newSearch}/>
+      <ListCountries countries={countries} newSearch = {newSearch} setSearch = {showOne}/>
       
     </div>  
   );
