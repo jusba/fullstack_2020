@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
+import axios from 'axios'
 
+/*Esimerkissä mainittu api ei ilmeisesti toiminu tällä hetkellä joten kokeilin jotain, muuta mikä osoittautui xml pohjaseks. En kuitenkaan ehdi tutkia enempää kun aika loppuu :( */
 
+const api_key = ""
 const Button = ({ onClick, text, country}) => {
    
     console.log(onclick)
@@ -22,6 +25,10 @@ const ListCountry = ({ country, onClick}) => {
 }
 const ListOneCountry = ({ country }) => {
     
+    const request = axios.get(`http://api.worldweatheronline.com/premium/v1/weather.ashx?key=${api_key}&q=${country.capital}&num_of_days=1`)
+    
+    request.then(response => console.log(response))
+    
     return (
         <>
             <h1>{country.name} </h1>
@@ -36,6 +43,9 @@ const ListOneCountry = ({ country }) => {
                 )}
             </ul>
             <img src = {country.flag} alt = "flag" width="200" height="150"/>
+            <h2>Weather</h2>
+            
+            
         </>
     )
 }
