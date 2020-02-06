@@ -27,7 +27,7 @@ const ListPerson = ({ person, setPersons, deleteMessage }) => {
 }
 
 const ListNames = (props) => {
-
+    
 
     return (
         props.persons.filter(person => person.name.toLowerCase().includes(props.newSearch.toLowerCase())).map(person =>
