@@ -35,26 +35,28 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-
+    services.getAll().then(responsepersons => {
+      console.log("settaa")
+      setPersons(responsepersons)
+    })
+    
+    console.log(persons)
+    console.log(newName)
 
     if (persons.some(i => i.name === newName)) {
+      
       if (window.confirm(`${person.name} is already added to phonebook, replace the number with a new one?`)) {
+        
         services.updatePerson(persons.find(i => i.name === person.name).id, person).then(response => {
+          
           services.getAll().then(response => {
             setPersons(response)
             setNewNumber("")
             setNewName("")
-            setMessage(`Modified ${person.name}`)
-            setTimeout(() => {
-              setMessage(null)
-            }, 5000)
-
+            handleMessage(`Modified ${person.name}`)
           })
         }).catch(error => {
-          setMessage(`Information of ${person.name} has already been removed from server`)
-            setTimeout(() => {
-              setMessage(null)
-            }, 5000)
+          handleMessage(`Information of ${person.name} has already been removed from server`)
         })
       }
 
@@ -64,24 +66,31 @@ const App = () => {
     if (persons.some(i => i.name === newName)) {
       window.alert(`${newName} is already added to phonebook`)
     }*/
-
+    else if (person.name.length<1 || person.number.length<1){
+      handleMessage(`Name or number empty`)
+    }
     else {
-
-      services.create(person)
+      handleMessage(`Added ${person.name}`)
+      
+      services.create(person).catch(error => {
+        handleMessage(error.response.data.error)
+      })
       services.getAll().then(responsepersons => {
 
         setPersons(responsepersons)
       })
-      setMessage(`Added ${person.name}`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      
 
       setNewName("")
       setNewNumber("")
     }
   }
-
+  const handleMessage = (text) => {
+    setMessage(text)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)  
+  }
   const handleDelMessage = (name) =>{
     setMessage(`Deleted ${name}`)
       setTimeout(() => {
