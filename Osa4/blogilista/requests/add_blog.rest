@@ -2,5 +2,5 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-"title": "testi_ukko", "author": "12431241242", "url": "www.osotteenperkele.fi", "likes": 6
+"title": "huru_ukko", "author": "ababcbabcbacacb", "url": "www.huutista.fi", "likes": 100
 }
