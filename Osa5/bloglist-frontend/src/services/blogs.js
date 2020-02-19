@@ -13,6 +13,22 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const update = async newObject => {
+  console.log(newObject)
+  const blog = 
+    {
+      user: newObject.id,
+      likes: newObject.likes +1,
+      author: newObject.author,
+      title: newObject.title,
+      url: newObject.url
+    }
+  
+  const response = axios.put(`/api/blogs/${newObject.id}`,blog)
+  return(response.data)
+  
+}
+
 const create = async newObject => {
   console.log(newObject)
   console.log(token)
@@ -24,4 +40,4 @@ const create = async newObject => {
 
 }
 
-export default { getAll, create, setToken }
+export default { getAll, create, update, setToken }

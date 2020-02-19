@@ -4,16 +4,13 @@ import blogService from './services/blogs'
 import loginService from './services/logins'
 import LoginForm from './components/Login'
 import BlogForm from './components/Blog'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [newTitle, setTitle] = useState("")
-  const [newAuthor, setAuthor] = useState("")
-  const [newUrl, setUrl] = useState("")
   const [newMessage, setMessage] = useState(null)
 
   useEffect(() => {
@@ -68,7 +65,7 @@ const App = () => {
       )
 
       blogService.setToken(user.token)
-      handleMessage('succesfully logged in')  
+      handleMessage('succesfully logged in')
       setUser(user)
       setUsername('')
       setPassword('')
@@ -80,38 +77,27 @@ const App = () => {
 
     }
   }
-  const addBlog = async (event) => {
-    event.preventDefault()
-    try {
-      const blog = {
-        title: newTitle,
-        author: newAuthor,
-        url: newUrl
-      }
-      const newBlog = await blogService.create(blog)
-      handleMessage(`a new blog ${newTitle} by ${newAuthor} added`)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-        
-      blogService.getAll().then(blogs =>
-        setBlogs(blogs),
-      )
-    } catch (exception) {
-      handleMessage('failed to create message')  
-    }
+  const addBlog = (blogObject) => {
     
+    blogService
+      .create(blogObject)
+      .then(blog => {setBlogs(blogs.concat(blog))})
 
+    
   }
-  const handleTitleAdd = (event) => {
-    setTitle(event.target.value)
-
-  }
-  const handleAuthorAdd = (event) => {
-    setAuthor(event.target.value)
-  }
-  const handleUrlAdd = (event) => {
-    setUrl(event.target.value)
+  
+  const onClickLike = (blog) => {
+    const id = blogs.findIndex(b => b.id === blog.id)
+    const blogs1 = blogs.splice(id,1,blog)
+    console.log(blogs1[0])
+    
+    console.log(id)
+    blogService
+      .update(blog)
+      .then(f => {setBlogs(blogs1)})
+      
+      
+      
   }
 
 
@@ -119,7 +105,7 @@ const App = () => {
     <div>
 
       {user === null && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} newMessage={newMessage} />}
-      {user !== null && <BlogForm blogs={blogs} handleLogout={handleLogout} user={user} addBlog={addBlog} newTitle={newTitle} handleTitleAdd={handleTitleAdd} newAuthor={newAuthor} handleAuthorAdd={handleAuthorAdd} newUrl={newUrl} handleUrlAdd={handleUrlAdd} newMessage={newMessage} />}
+      {user !== null && <BlogForm blogs={blogs} handleLogout={handleLogout} user={user} createBlog={addBlog} newMessage={newMessage} handleMessage={handleMessage} onClickLike = {onClickLike} />}
 
 
 
