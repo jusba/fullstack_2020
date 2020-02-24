@@ -12,15 +12,21 @@ blogRouter.get('/', async (request, response) => {
 
 
 blogRouter.post('/', async (request, response, next) => {
+  console.log(request.body)
   const body = request.body
+  
   //code to get random user.
   //const users = await User.find({})
   //const id = Math.floor(Math.random() * Math.floor(users.length))
   //const user = await User.findById(users[id]._id)
+  console.log(request.token)
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  
   if (!request.token || !decodedToken.id) {
+    console.log("tääl")
     return response.status(401).json({ error: 'token missing or invalid' })
   }
+  
   const user = await User.findById(decodedToken.id)
   const blog = new Blog({
     title: body.title,
@@ -65,6 +71,7 @@ blogRouter.delete('/:id', async (request, response, next) => {
 })
 
 blogRouter.put('/:id', async (request, response) => {
+  console.log(request)
   const blog = {
     title: request.body.title, author: request.body.author, url: request.body.url, likes: request.body.likes
   }

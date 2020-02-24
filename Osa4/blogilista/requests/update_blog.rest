@@ -1,5 +1,4 @@
-PUT http://localhost:3001/api/blogs/5e4444f4df9cc709b8024f83
-Content-Type: application/json
+PUT http://localhost:3001/api/blogs/5e4aa88ae717d90614bd7cc8
 
 {
 "title": "perkule", "author": "987654321", "url": "www.huuTTT.fi", "likes": 50
