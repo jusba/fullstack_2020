@@ -16,8 +16,8 @@ const asObject = (anecdote) => {
     votes: 0
   }
 }
-const generateId = () =>
-  Number((Math.random() * 1000000).toFixed(0))
+//const generateId = () =>
+  //Number((Math.random() * 1000000).toFixed(0))
 
 const initialState = anecdotesAtStart.map(asObject)
 
@@ -35,8 +35,17 @@ const reducer = (state = initialState, action) => {
       )
     case 'NEW':
       return state.concat(action.data)
+    case 'INIT':
+      return action.data
     default:
       return state
+  }
+}
+
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT',
+    data: anecdotes
   }
 }
 export const voteAnecdote = (id) => {
@@ -46,11 +55,10 @@ export const voteAnecdote = (id) => {
   }
 }
 export const addAnecdote = (content) => {
-  return{
+  return {
     type: 'NEW',
     data: {
       content,
-      id: generateId(),
       votes: 0
     }
   }
