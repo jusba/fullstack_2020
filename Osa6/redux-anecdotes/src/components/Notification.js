@@ -8,7 +8,12 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1
   }
-  console.log(notification.text)
+  console.log(notification)
+  if (notification === null) {
+    return(
+      <div/>
+    )
+  }
   return (
     <div style={style}>
       {notification.text}
