@@ -1,3 +1,6 @@
+import anecdoteService from '../services/anecdotes'
+import {setNotification} from '../reducers/notificationReducer'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -42,25 +45,34 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT',
-    data: anecdotes
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT',
+      data: anecdotes,
+    })
   }
 }
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id: id }
+export const voteAnecdote = (object) => {
+  return async dispatch => {
+    const anecdote = await anecdoteService.update(object)
+    dispatch({
+      type: 'VOTE',
+      data: { id: anecdote.id }
+    })
+    dispatch(setNotification(`you voted '${anecdote.content}'`, 10))
+    
   }
 }
 export const addAnecdote = (content) => {
-  return {
-    type: 'NEW',
-    data: {
-      content,
-      votes: 0
-    }
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'NEW',
+      data: newAnecdote,
+    })
+    dispatch(setNotification(`you added '${newAnecdote.content}'`, 10))
   }
 }
 
