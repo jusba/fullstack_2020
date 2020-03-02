@@ -7,7 +7,6 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
     const anecdotes = useSelector(state => state.anecdotes)
     const filter = useSelector(state => state.filter)
-    console.log(anecdotes)
     const filtered_anecdotes = anecdotes.filter(ane => ane.content.toLowerCase().includes(filter.toLowerCase()))
 
     const vote = async (anecdote) => {
