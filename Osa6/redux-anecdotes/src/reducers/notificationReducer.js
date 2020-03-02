@@ -12,15 +12,23 @@ const notificationStart = {
         return null
     }
   }
+  
+  let timeOut = ""
+  
   export const setNotification = (content, time) => {
+
     return async dispatch => {
+      console.log(timeOut)
+      clearTimeout(timeOut)
       dispatch({
         type: 'NOTI',
         data: { content: content }
       })
-      setTimeout(() => {
-        dispatch(clear())  
+      timeOut = setTimeout(() => {
+          dispatch(clear())
       }, time * 1000)
+      
+      
       
     }
   }
