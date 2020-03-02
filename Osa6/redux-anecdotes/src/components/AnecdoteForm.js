@@ -9,7 +9,7 @@ const AnecdoteForm = (props) => {
         event.target.anecdote.value = ""
         props.addAnecdote(content)
     }
-
+    console.log(props)
     return (
         <div>
             <h2>create new</h2>
