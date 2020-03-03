@@ -4,6 +4,7 @@ import {
   Switch, Route, Link, useParams,
   useHistory
 } from "react-router-dom"
+import  { useField } from './hooks/index'
 
 const Menu = () => {
   const padding = {
@@ -70,13 +71,16 @@ const CreateNew = (props) => {
   const [info, setInfo] = useState('')
 
   const history = useHistory()
+  const content1 = useField("text")
+  const author1 = useField("content")
+  const info1 = useField("content")
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content1.value,
+      author: author1.value,
+      info: info1.value,
       votes: 0
     })
     props.setNotification(`a new anecdote ${content} created!`)
@@ -85,6 +89,11 @@ const CreateNew = (props) => {
     }, 10000)
     history.push('/')
   }
+  const handleReset = () => {
+    content1.reset()
+    author1.reset()
+    info1.reset()
+  }
 
   return (
     <div>
@@ -92,17 +101,17 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content1} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author1} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
+          <input {...info1} />
         </div>
-        <button>create</button>
+        <button>create</button><button type = {"button"} onClick = {handleReset}>reset</button>
       </form>
     </div>
   )
