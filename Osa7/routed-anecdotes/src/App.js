@@ -71,9 +71,18 @@ const CreateNew = (props) => {
   const [info, setInfo] = useState('')
 
   const history = useHistory()
-  const content1 = useField("text")
-  const author1 = useField("content")
-  const info1 = useField("content")
+  
+  const {...content1} = useField("text")
+  const reset1 = content1["reset"]
+  delete content1["reset"]
+  const {...author1} = useField("content")
+  const reset2 = author1["reset"]
+  delete author1["reset"]
+  const {...info1} = useField("content")
+  const reset3 = info1["reset"]
+  delete info1["reset"]
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -90,11 +99,11 @@ const CreateNew = (props) => {
     history.push('/')
   }
   const handleReset = () => {
-    content1.reset()
-    author1.reset()
-    info1.reset()
+    reset1()
+    reset2()
+    reset3()  
   }
-
+  
   return (
     <div>
       <h2>create a new anecdote</h2>
