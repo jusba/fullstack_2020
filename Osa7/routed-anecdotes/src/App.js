@@ -71,7 +71,8 @@ const CreateNew = (props) => {
   const [info, setInfo] = useState('')
 
   const history = useHistory()
-  
+
+  //ei varmastikkaan siistein ratkaisu, mutta toimii :)
   const {...content1} = useField("text")
   const reset1 = content1["reset"]
   delete content1["reset"]
