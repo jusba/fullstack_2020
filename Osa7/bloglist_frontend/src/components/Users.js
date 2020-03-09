@@ -21,10 +21,6 @@ const Users = ({ handleLogout, user }) => {
   console.log(blogUsers)
   return (
     <div>
-      <h2>blogs</h2>
-
-      <h4>{user.name} logged in  </h4>
-      <Button onClick={handleLogout} text={'logout'} />
       <h2>users</h2>
       <table>
         <tbody>

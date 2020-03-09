@@ -86,10 +86,25 @@ const App = () => {
   }
 
 
-
+  const padding = {
+    padding: 5
+  }
+  const barStyle = {
+    background: 'lightgrey',
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
 
   return (
     <Router>
+      {user !== null &&
+      <div style={barStyle}>
+
+
+        <h3 ><Link style ={padding} to="/">blogs</Link> <Link style ={padding} to="/users">users</Link>    {user.name} logged in  <button onClick={handleLogout} >logout</button> </h3>
+
+      </div>}
       <Switch>
         {user !== null && <Route path="/users">
           <Users handleLogout = {handleLogout} user = {user}/>

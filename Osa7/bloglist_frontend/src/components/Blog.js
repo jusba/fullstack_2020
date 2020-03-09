@@ -28,7 +28,7 @@ const BlogList = ({ blogs, user }) => {
     </div>
   )
 }
-const Button = ({ onClick, text }) => {
+/*const Button = ({ onClick, text }) => {
   const buttonStyle = {
     border: 'none',
     color: 'red'
@@ -45,7 +45,7 @@ const Button = ({ onClick, text }) => {
       {text}
     </button>
   )
-}
+}*/
 const CreateNew = ({ addBlog, newTitle, handleTitleAdd, newAuthor, handleAuthorAdd, newUrl, handleUrlAdd }) => {
 
   return (
@@ -125,9 +125,8 @@ const BlogForm = ({ handleLogout, user, createBlog, newMessage }) => {
   return (
 
     <div>
-      <h2>blogs</h2>
+      <h2>blog app</h2>
       <Notification message={newMessage} />
-      <h3>{user.name} logged in  <Button onClick={handleLogout} text={'logout'} /> </h3>
       <Togglable buttonLabel="new blog">
         <CreateNew addBlog={addBlog} newTitle={newTitle} handleTitleAdd={handleTitleAdd} newAuthor={newAuthor} handleAuthorAdd={handleAuthorAdd} newUrl={newUrl} handleUrlAdd={handleUrlAdd} />
       </Togglable>
