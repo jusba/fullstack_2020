@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
 
-const jwt = require('jsonwebtoken')
+//const jwt = require('jsonwebtoken')
 require('dotenv')
 
 
@@ -15,14 +15,14 @@ require('dotenv')
 
 
 
-const BlogList = ({ blogs, user, showBlogs }) => {
+const BlogList = ({ blogs, user }) => {
 
   blogs.sort((a, b) => (a.likes - b.likes))
   blogs.reverse()
   return (
     <div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} showBlogs = {showBlogs} />
+        <Blog key={blog.id} blog={blog} user={user}  />
       )}
 
     </div>
@@ -47,7 +47,7 @@ const Button = ({ onClick, text }) => {
   )
 }
 const CreateNew = ({ addBlog, newTitle, handleTitleAdd, newAuthor, handleAuthorAdd, newUrl, handleUrlAdd }) => {
-  
+
   return (
     <form onSubmit={addBlog}>
       <div>
@@ -79,18 +79,17 @@ const CreateNew = ({ addBlog, newTitle, handleTitleAdd, newAuthor, handleAuthorA
   )
 }
 
-const BlogForm = ({ handleLogout, user, createBlog, newMessage, showBlogs }) => {
+const BlogForm = ({ handleLogout, user, createBlog, newMessage }) => {
   const [newTitle, setTitle] = useState('')
   const [newAuthor, setAuthor] = useState('')
   const [newUrl, setUrl] = useState('')
   const blogs = useSelector(state => state.blogs)
-  const dispatch = useDispatch()
   //jätin handlemessagen pois kun se on suurimman osan ajasta null, mutta välillä string joten sotkee asiat
   BlogForm.propTypes = {
     handleLogout: PropTypes.func.isRequired,
     user:PropTypes.object.isRequired,
-    createBlog: PropTypes.func.isRequired,
-    showBlogs: PropTypes.func.isRequired
+    createBlog: PropTypes.func.isRequired
+
   }
 
   const addBlog = (event) => {
@@ -102,12 +101,12 @@ const BlogForm = ({ handleLogout, user, createBlog, newMessage, showBlogs }) => 
     }
     try {
       createBlog(newBlog)
-      
+
       setTitle('')
       setAuthor('')
       setUrl('')
     } catch (exception) {
-      console.log("error")
+      console.log('error')
     }
 
   }
@@ -132,7 +131,7 @@ const BlogForm = ({ handleLogout, user, createBlog, newMessage, showBlogs }) => 
       <Togglable buttonLabel="new blog">
         <CreateNew addBlog={addBlog} newTitle={newTitle} handleTitleAdd={handleTitleAdd} newAuthor={newAuthor} handleAuthorAdd={handleAuthorAdd} newUrl={newUrl} handleUrlAdd={handleUrlAdd} />
       </Togglable>
-      <BlogList blogs={blogs} user={user} showBlogs = {showBlogs}  />
+      <BlogList blogs={blogs} user={user}  />
 
 
     </div>

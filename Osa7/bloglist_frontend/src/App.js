@@ -6,7 +6,12 @@ import blogService from './services/blogs'
 import loginService from './services/logins'
 import LoginForm from './components/Login'
 import BlogForm from './components/Blog'
+import Users from './components/Users'
 import { initializeBlogs } from './reducers/blogReducer'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from 'react-router-dom'
 
 
 const App = () => {
@@ -61,20 +66,20 @@ const App = () => {
       )
 
       blogService.setToken(user.token)
-      dispatch(setNotification(`succesfully logged in`, 5))
+      dispatch(setNotification('succesfully logged in', 5))
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
       console.log('catch')
-      dispatch(setNotification(`failed to log in`, 5))
+      dispatch(setNotification('failed to log in', 5))
       setUsername('')
       setPassword('')
 
     }
   }
   const blogAdd = (blogObject) => {
-    
+
     dispatch(addBlog(blogObject))
     dispatch(setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 5))
 
@@ -84,14 +89,21 @@ const App = () => {
 
 
   return (
-    <div>
+    <Router>
+      <Switch>
+        {user !== null && <Route path="/users">
+          <Users handleLogout = {handleLogout} user = {user}/>
+        </Route>}
 
-      {user === null && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />}
-      {user !== null && <BlogForm handleLogout={handleLogout} user={user} createBlog={blogAdd}  />}
+        <Route path="/">
 
+          {user === null && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />}
+          {user !== null && <BlogForm handleLogout={handleLogout} user={user} createBlog={blogAdd}  />}
 
+        </Route>
 
-    </div>
+      </Switch>
+    </Router>
   )
 }
 
