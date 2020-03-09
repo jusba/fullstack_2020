@@ -12,7 +12,6 @@ blogRouter.get('/', async (request, response) => {
 
 
 blogRouter.post('/', async (request, response, next) => {
-  console.log(request.body)
   const body = request.body
   
   //code to get random user.
@@ -71,7 +70,6 @@ blogRouter.delete('/:id', async (request, response, next) => {
 })
 
 blogRouter.put('/:id', async (request, response) => {
-  console.log(request)
   const blog = {
     title: request.body.title, author: request.body.author, url: request.body.url, likes: request.body.likes
   }

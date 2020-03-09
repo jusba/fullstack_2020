@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import Notification from '../components/ErrorMessage'
 import Togglable from './Togglable'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import Blog from './Blog_component'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
+
 const jwt = require('jsonwebtoken')
 require('dotenv')
+
 
 
 
@@ -43,7 +47,7 @@ const Button = ({ onClick, text }) => {
   )
 }
 const CreateNew = ({ addBlog, newTitle, handleTitleAdd, newAuthor, handleAuthorAdd, newUrl, handleUrlAdd }) => {
-
+  
   return (
     <form onSubmit={addBlog}>
       <div>
@@ -75,14 +79,14 @@ const CreateNew = ({ addBlog, newTitle, handleTitleAdd, newAuthor, handleAuthorA
   )
 }
 
-const BlogForm = ({ blogs, handleLogout, user, createBlog, newMessage, showBlogs }) => {
+const BlogForm = ({ handleLogout, user, createBlog, newMessage, showBlogs }) => {
   const [newTitle, setTitle] = useState('')
   const [newAuthor, setAuthor] = useState('')
   const [newUrl, setUrl] = useState('')
-
+  const blogs = useSelector(state => state.blogs)
+  const dispatch = useDispatch()
   //jätin handlemessagen pois kun se on suurimman osan ajasta null, mutta välillä string joten sotkee asiat
   BlogForm.propTypes = {
-    blogs: PropTypes.array.isRequired,
     handleLogout: PropTypes.func.isRequired,
     user:PropTypes.object.isRequired,
     createBlog: PropTypes.func.isRequired,
@@ -91,13 +95,14 @@ const BlogForm = ({ blogs, handleLogout, user, createBlog, newMessage, showBlogs
 
   const addBlog = (event) => {
     event.preventDefault()
+    const newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl
+    }
     try {
-      createBlog({
-        title: newTitle,
-        author: newAuthor,
-        url: newUrl
-      })
-
+      createBlog(newBlog)
+      
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -117,7 +122,6 @@ const BlogForm = ({ blogs, handleLogout, user, createBlog, newMessage, showBlogs
   const handleUrlAdd = (event) => {
     setUrl(event.target.value)
   }
-
 
   return (
 

@@ -8,7 +8,13 @@ const notificationStart = {
         return { text: action.data.content }
       case 'ZERO' :
         return null
+      case 'NEW':
+        //aivan hiveä purkkaratkaisu, en en ymmärrä mistä saan tänne new dispatchin, mutta tälleen 
+        //parin tunnin väännön jälkeen pakko mennä eteenpäin
+        console.log(action.data.content)
+        return { text: `a new blog ${action.data.title} by ${action.data.author}`}
       default:
+        console.log("defaulttas")
         return null
     }
   }
@@ -16,7 +22,7 @@ const notificationStart = {
   let timeOut = ""
   
   export const setNotification = (content, time) => {
-
+    console.log("dafak taas vittu")
     return async dispatch => {
       console.log(timeOut)
       clearTimeout(timeOut)

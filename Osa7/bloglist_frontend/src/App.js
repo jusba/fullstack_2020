@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
+import { addBlog } from './reducers/blogReducer'
 import blogService from './services/blogs'
 import loginService from './services/logins'
 import LoginForm from './components/Login'
 import BlogForm from './components/Blog'
-
+import { initializeBlogs } from './reducers/blogReducer'
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -18,10 +18,8 @@ const App = () => {
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs),
-    )
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -75,16 +73,11 @@ const App = () => {
 
     }
   }
-  const addBlog = (blogObject) => {
+  const blogAdd = (blogObject) => {
     
-    blogService
-      .create(blogObject)
-      .then(blog => { setBlogs(blogs.concat(blog)) })
+    dispatch(addBlog(blogObject))
     dispatch(setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 5))
 
-  }
-  const showBlogs = (blogsList) => {
-    setBlogs(blogsList)
   }
 
 
@@ -94,7 +87,7 @@ const App = () => {
     <div>
 
       {user === null && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />}
-      {user !== null && <BlogForm blogs={blogs} handleLogout={handleLogout} user={user} createBlog={addBlog}  showBlogs = {showBlogs} />}
+      {user !== null && <BlogForm handleLogout={handleLogout} user={user} createBlog={blogAdd}  />}
 
 
 
