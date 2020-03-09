@@ -5,11 +5,11 @@ import '../App.css'
 const Notification = () => {
   const notification = useSelector(state => state.notifications)
   console.log(notification)
-  const style = {
+  /*const style = {
     border: 'solid',
     padding: 10,
     borderWidth: 1
-  }
+  }*/
 
   if (notification === null) {
     return(

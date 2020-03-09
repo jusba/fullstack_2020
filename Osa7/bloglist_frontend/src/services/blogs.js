@@ -39,6 +39,7 @@ const create = async newObject => {
 
 }
 const deleteBlog = async (id) => {
+  console.log(id)
   const config = {
     headers: { Authorization: token }
   }

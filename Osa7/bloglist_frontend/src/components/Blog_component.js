@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
-const jwt = require('jsonwebtoken')
+import { useDispatch } from 'react-redux'
+import { likeBlog, deleteBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
+
+
+//const jwt = require('jsonwebtoken')
 require('dotenv')
 
 const Button = ({ onClick, text }) => {
@@ -24,7 +29,7 @@ const Button = ({ onClick, text }) => {
 
 const Blog = ({ blog,  user, showBlogs, testiFunctio }) => {
 
-
+  const dispatch = useDispatch()
 
   const blogStyle = {
     paddingTop: 10,
@@ -56,11 +61,7 @@ blogService.update(blog).then(response =>{
   const pressLike = () => {
 
     blog.likes = blog.likes + 1
-    blogService.update(blog).then(response => {
-      blogService.getAll().then(response => {
-        showBlogs(response)
-      })
-    })
+    dispatch(likeBlog(blog))
 
   }
   // if (show && blog.user.id === decodedToken.id) {
@@ -73,11 +74,8 @@ blogService.update(blog).then(response =>{
         <p>{blog.user.name}</p>
         <Button onClick={() => {
           if (window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
-            blogService.deleteBlog(blog.id).then(response => {
-              blogService.getAll().then(response => {
-                showBlogs(response)
-              })
-            })
+            dispatch(deleteBlog(blog))
+            dispatch(setNotification(`deleted ${blog.title} by ${blog.author}`, 5))
           }
         }} text={'remove'} />
       </div>

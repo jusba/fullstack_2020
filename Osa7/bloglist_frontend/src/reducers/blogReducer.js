@@ -11,6 +11,19 @@ const reducer = (state = initialState, action) => {
         case 'INIT':
             console.log("init")
             return action.data
+        case 'UPDATE':
+            const id = action.data.id
+            const likedBlog = state.find(b => b.id === id)
+            const changedBlog = {
+                ...likedBlog, votes: likedBlog.votes
+            }
+            return state.map(b =>
+                b.id !== id ? b : changedBlog
+            )
+        case 'DELETE':
+            return state.filter(b =>
+                b.id !== action.data.id
+                )
         default:
             return state
     }
@@ -26,18 +39,38 @@ export const initializeBlogs = () => {
     }
 }
 export const addBlog = (content) => {
+    console.log(content)
     return async dispatch => {
-      const newBlog = await blogService.create(content)
-      console.log(newBlog, "newblog")
-      dispatch({
-        type: 'NEW',
-        data: newBlog,
-      })
-      
+        const newBlog = await blogService.create(content)
+        console.log(newBlog, "newblog")
+        dispatch({
+            type: 'NEW',
+            data: newBlog,
+        })
+
 
     }
-  }
+}
+export const likeBlog = (object) => {
+    return async dispatch => {
+        const updatedBlog = await blogService.update(object)
+        dispatch({
+            type: 'UPDATE',
+            data: { id: updatedBlog.id}
+        })
+    }
+}
+export const deleteBlog = (object) => {
+    return async dispatch => {
+        const deletedBlog = await blogService.deleteBlog(object.id)
+        console.log(deleteBlog)
+        dispatch({
+            type: 'DELETE',
+            data: { id: object.id , blog: object}
+        })
+    }
+}
 
 export default reducer
 
-  
+
