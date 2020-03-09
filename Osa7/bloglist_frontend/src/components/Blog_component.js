@@ -93,6 +93,6 @@ blogService.update(blog).then(response =>{
     )
   }
 
-  return (<div style={blogStyle}> {blog.title}   {blog.author} <Button onClick={onClick} text={'show'} /> </div>)
+  return (<div style={blogStyle}> {blog.title}   {blog.author} <Button onClick={onClick} text={'show'} /><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTcVFMXIxxj3g1gdnBZ3Kc61rmpQCUsELbDh0dbK1kCSwgBLetg" responsive /> </div>)
 }
 export default Blog

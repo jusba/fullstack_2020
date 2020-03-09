@@ -12,6 +12,7 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from 'react-router-dom'
+import { Navbar, Nav} from 'react-bootstrap';
 
 
 const App = () => {
@@ -97,28 +98,48 @@ const App = () => {
   }
 
   return (
-    <Router>
-      {user !== null &&
-      <div style={barStyle}>
+    <div class="container">
+      <Router >
+        {user !== null &&
+          <div style={barStyle}>
 
 
-        <h3 ><Link style ={padding} to="/">blogs</Link> <Link style ={padding} to="/users">users</Link>    {user.name} logged in  <button onClick={handleLogout} >logout</button> </h3>
+          
+              <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="mr-auto">
+                  <Nav.Link href="#" as="span">
+                    <Link style={padding} to="/">blogs</Link>
+                  </Nav.Link>
+                  <Nav.Link href="#" as="span">
+                    <Link style={padding} to="/users">users</Link>
+                  </Nav.Link>
+                  </Nav>
+      </Navbar.Collapse>
 
-      </div>}
-      <Switch>
-        {user !== null && <Route path="/users">
-          <Users handleLogout = {handleLogout} user = {user}/>
-        </Route>}
+      </Navbar>
 
-        <Route path="/">
+            {user.name} logged in
+          <button onClick={handleLogout} >logout</button>
 
-          {user === null && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />}
-          {user !== null && <BlogForm handleLogout={handleLogout} user={user} createBlog={blogAdd}  />}
 
-        </Route>
+          </div>}
+        <Switch>
+          {user !== null && <Route path="/users">
+            <Users handleLogout={handleLogout} user={user} />
+          </Route>}
 
-      </Switch>
-    </Router>
+          <Route path="/">
+
+            {user === null && <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />}
+            {user !== null && <BlogForm handleLogout={handleLogout} user={user} createBlog={blogAdd} />}
+
+          </Route>
+
+        </Switch>
+      </Router>
+    </div>
   )
 }
 

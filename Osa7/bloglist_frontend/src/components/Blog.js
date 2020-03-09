@@ -5,13 +5,18 @@ import PropTypes from 'prop-types'
 import Blog from './Blog_component'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import Marquee from 'react-double-marquee'
+import styled from 'styled-components'
 
 
 //const jwt = require('jsonwebtoken')
 require('dotenv')
 
 
-
+const Page = styled.div`
+  padding: 1em;
+  background: papayawhip;
+`
 
 
 
@@ -20,6 +25,7 @@ const BlogList = ({ blogs, user }) => {
   blogs.sort((a, b) => (a.likes - b.likes))
   blogs.reverse()
   return (
+    
     <div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} user={user}  />
@@ -121,17 +127,23 @@ const BlogForm = ({ handleLogout, user, createBlog, newMessage }) => {
   const handleUrlAdd = (event) => {
     setUrl(event.target.value)
   }
-
+  
   return (
-
-    <div>
-      <h2>blog app</h2>
+    
+    <div style= {{
+      width: '500px',
+      whiteSpace: 'nowrap',
+    }} >
+      <Marquee>
+      BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP  BLOG APP 
+      </Marquee>
       <Notification message={newMessage} />
       <Togglable buttonLabel="new blog">
         <CreateNew addBlog={addBlog} newTitle={newTitle} handleTitleAdd={handleTitleAdd} newAuthor={newAuthor} handleAuthorAdd={handleAuthorAdd} newUrl={newUrl} handleUrlAdd={handleUrlAdd} />
       </Togglable>
+      <Page>
       <BlogList blogs={blogs} user={user}  />
-
+      </Page>
 
     </div>
   )
